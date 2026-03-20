@@ -9,86 +9,130 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:#f9fafb;color:#1f2937}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;background:#f5f4f0;color:#1a1a1a}
+  /* FOSS palette */
+  :root{
+    --navy:#0a1f3c;
+    --navy-mid:#122952;
+    --navy-light:#1d3d6e;
+    --accent:#4a7fb5;
+    --accent-hover:#3a6a9a;
+    --off-white:#f5f4f0;
+    --white:#ffffff;
+    --border:#dddbd4;
+    --text-muted:#6b6b6b;
+    --text-dark:#1a1a1a;
+  }
   .layout{display:flex;height:100vh;overflow:hidden}
-  aside{width:220px;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
-  .sidebar-header{padding:16px;border-bottom:1px solid #f3f4f6}
-  .sidebar-label{font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-  .tab-row{display:flex;gap:4px}
-  .tab-btn{flex:1;font-size:11px;padding:4px 2px;border-radius:4px;border:none;cursor:pointer;font-weight:500;transition:all .15s}
-  .tab-btn.active{background:#2563eb;color:#fff}
-  .tab-btn.inactive{background:#f3f4f6;color:#6b7280}
-  .tab-btn.inactive:hover{background:#e5e7eb}
+
+  /* Sidebar */
+  aside{width:240px;background:var(--navy);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+  .sidebar-logo{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .logo-text{font-size:13px;font-weight:700;color:#fff;letter-spacing:.12em;text-transform:uppercase}
+  .logo-sub{font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+  .tab-row{display:flex;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .tab-btn{flex:1;font-size:11px;font-weight:600;padding:10px 4px;border:none;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:background .15s;border-bottom:2px solid transparent}
+  .tab-btn.active{background:rgba(255,255,255,0.08);color:#fff;border-bottom-color:var(--accent)}
+  .tab-btn.inactive{background:transparent;color:rgba(255,255,255,0.45)}
+  .tab-btn.inactive:hover{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.75)}
   nav{flex:1;padding:8px 0}
-  .nav-btn{width:100%;text-align:left;padding:10px 16px;border:none;background:none;cursor:pointer;font-size:13px;transition:background .1s;border-right:2px solid transparent}
-  .nav-btn.active{background:#eff6ff;color:#1d4ed8;font-weight:600;border-right-color:#2563eb}
-  .nav-btn.inactive{color:#6b7280}
-  .nav-btn.inactive:hover{background:#f9fafb}
-  .nav-code{font-size:11px;font-family:monospace;color:#9ca3af;display:block;margin-bottom:1px}
-  main{flex:1;overflow-y:auto}
-  .content{max-width:740px;margin:0 auto;padding:32px 24px}
-  h1{font-size:22px;font-weight:700;color:#111827;margin-bottom:8px}
-  h2{font-size:15px;font-weight:700;color:#111827;margin-bottom:12px}
-  .desc{color:#6b7280;line-height:1.6;margin-bottom:24px}
-  .badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:2px 8px;border-radius:12px;margin-right:6px;margin-bottom:4px}
-  .badge-code{background:#f3f4f6;color:#6b7280}
-  .badge-singleton{background:#fef3c7;color:#92400e}
-  .badge-required{background:#fee2e2;color:#b91c1c}
-  .badge-localized{background:#e0f2fe;color:#0369a1}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
-  .card{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px}
-  .card-label{font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-  .card-mono{font-family:monospace;font-size:12px;color:#374151}
-  .card-note{font-size:12px;color:#6b7280;margin-top:4px}
-  .required-box{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-bottom:24px}
-  .required-box-label{font-size:11px;font-weight:600;color:#b91c1c;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+  .nav-btn{width:100%;text-align:left;padding:9px 20px;border:none;background:none;cursor:pointer;font-size:12.5px;transition:background .1s;border-left:3px solid transparent}
+  .nav-btn.active{background:rgba(255,255,255,0.1);color:#fff;font-weight:600;border-left-color:var(--accent)}
+  .nav-btn.inactive{color:rgba(255,255,255,0.55)}
+  .nav-btn.inactive:hover{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.85)}
+  .nav-code{font-size:10px;font-family:monospace;color:rgba(255,255,255,0.3);display:block;margin-bottom:1px;letter-spacing:.04em}
+
+  /* Main */
+  main{flex:1;overflow-y:auto;background:var(--off-white)}
+  .topbar{background:var(--navy);padding:14px 32px;display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--red)}
+  .topbar-title{font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:.08em;text-transform:uppercase}
+  .topbar-name{font-size:15px;font-weight:700;color:#fff}
+  .topbar-sep{color:rgba(255,255,255,0.25);font-size:14px}
+  .content{max-width:760px;margin:0 auto;padding:32px 32px 64px}
+
+  /* Typography */
+  h1{font-size:26px;font-weight:700;color:var(--navy);margin-bottom:8px;line-height:1.2}
+  h2{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;text-transform:uppercase;letter-spacing:.07em}
+  .desc{color:var(--text-muted);line-height:1.65;margin-bottom:28px;font-size:14px}
+
+  /* Badges */
+  .badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 8px;border-radius:2px;margin-right:6px;margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase}
+  .badge-code{background:var(--navy);color:#fff}
+  .badge-singleton{background:#fff4e0;color:#7a4a00;border:1px solid #f0d090}
+  .badge-required{background:#fde8e8;color:#8b1a1a;border:1px solid #f5b5b5}
+  .badge-localized{background:#e3edf8;color:#1d3d6e;border:1px solid #b5cce8}
+
+  /* Grid */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+  .card{background:var(--white);border:1px solid var(--border);padding:14px 16px}
+  .card-label{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+  .card-mono{font-family:monospace;font-size:12px;color:var(--navy);font-weight:600}
+  .card-note{font-size:12px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+
+  /* Required box */
+  .required-box{background:var(--white);border-left:3px solid var(--accent);padding:12px 16px;margin-bottom:28px}
+  .required-box-label{font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
   .required-tags{display:flex;flex-wrap:wrap;gap:6px}
-  .required-tag{font-size:11px;background:#fff;border:1px solid #fecaca;color:#b91c1c;padding:2px 8px;border-radius:4px;font-family:monospace}
-  .section-label{font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;padding:0 4px}
-  .field-group{margin-bottom:16px}
-  .fields-list{background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
-  .field-row{padding:12px 16px;border-bottom:1px solid #f3f4f6;cursor:pointer}
+  .required-tag{font-size:11px;background:#e8f0fa;border:1px solid #b5cce8;color:#1d3d6e;padding:2px 8px;font-family:monospace}
+
+  /* Section label */
+  .section-label{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;padding:0 2px}
+  .field-group{margin-bottom:20px}
+
+  /* Fields list */
+  .fields-list{background:var(--white);border:1px solid var(--border)}
+  .field-row{padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
   .field-row:last-child{border-bottom:none}
-  .field-row:hover{background:#fafafa}
+  .field-row:hover{background:#fafaf8}
   .field-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-  .field-name{font-weight:500;color:#111827}
+  .field-name{font-weight:600;color:var(--navy);font-size:13px}
   .field-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
-  .field-id{font-size:11px;font-family:monospace;color:#9ca3af;margin-top:2px}
-  .field-note{margin-top:8px;font-size:12px;color:#6b7280;background:#f9fafb;border-radius:4px;padding:8px 12px;line-height:1.5}
-  .show-guidance{font-size:11px;color:#2563eb;background:none;border:none;cursor:pointer;padding:0;margin-top:4px}
+  .field-id{font-size:11px;font-family:monospace;color:#aaa;margin-top:2px}
+  .field-note{margin-top:8px;font-size:12px;color:var(--text-muted);background:var(--off-white);padding:8px 12px;line-height:1.55;border-left:2px solid var(--border)}
+  .show-guidance{font-size:11px;color:var(--navy-light);background:none;border:none;cursor:pointer;padding:0;margin-top:4px;font-weight:600}
   .show-guidance:hover{text-decoration:underline}
-  .type-badge{font-size:11px;font-weight:500;padding:2px 8px;border-radius:12px}
-  .t-short{background:#dbeafe;color:#1e40af}
-  .t-long{background:#ede9fe;color:#5b21b6}
+
+  /* Type badges */
+  .type-badge{font-size:10px;font-weight:700;padding:2px 7px;letter-spacing:.04em;text-transform:uppercase}
+  .t-short{background:#e8f0fa;color:#1d3d6e}
+  .t-long{background:#ede9fe;color:#4c3694}
   .t-rich{background:#e0e7ff;color:#3730a3}
-  .t-bool{background:#fef9c3;color:#713f12}
-  .t-date{background:#ffedd5;color:#9a3412}
-  .t-int{background:#ccfbf1;color:#134e4a}
-  .t-ref{background:#dcfce7;color:#14532d}
-  .t-other{background:#f3f4f6;color:#374151}
-  .toggle{font-size:11px;color:#9ca3af}
-  .modules-intro{font-size:12px;color:#6b7280;margin-bottom:12px}
-  .mod-card{border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:8px}
-  .mod-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border:none;cursor:pointer;text-align:left;transition:background .1s}
-  .mod-header:hover{background:#f9fafb}
-  .mod-header-left{display:flex;align-items:center;gap:8px}
-  .mod-code{font-size:11px;font-family:monospace;color:#9ca3af;width:36px;flex-shrink:0}
-  .mod-name{font-weight:500;color:#111827;font-size:13px}
-  .mod-body{border-top:1px solid #f3f4f6;background:#f9fafb;padding:12px 16px}
-  .mod-desc{font-size:12px;color:#6b7280;margin-bottom:12px;line-height:1.5}
-  .no-modules{background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px 16px;font-size:13px;color:#6b7280}
-  .concept-icon{font-size:28px;margin-bottom:12px}
-  .concept-body p{color:#374151;line-height:1.7;margin-bottom:16px}
+  .t-bool{background:#fff8e0;color:#7a4a00}
+  .t-date{background:#fff0e8;color:#7a3010}
+  .t-int{background:#e0f5ee;color:#0a4d30}
+  .t-ref{background:#e8f5e0;color:#2a5a10}
+  .t-other{background:#f0eeea;color:#555}
+  .toggle{font-size:11px;color:#aaa}
+
+  /* Module cards */
+  .modules-intro{font-size:12px;color:var(--text-muted);margin-bottom:12px}
+  .mod-card{border:1px solid var(--border);background:var(--white);margin-bottom:6px}
+  .mod-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:11px 16px;background:var(--white);border:none;cursor:pointer;text-align:left;transition:background .1s}
+  .mod-header:hover{background:#fafaf8}
+  .mod-header-left{display:flex;align-items:center;gap:10px}
+  .mod-code{font-size:10px;font-family:monospace;color:#fff;background:var(--navy);padding:2px 6px;font-weight:700;letter-spacing:.04em}
+  .mod-name{font-weight:600;color:var(--navy);font-size:13px}
+  .mod-body{border-top:1px solid var(--border);background:var(--off-white);padding:14px 16px}
+  .mod-desc{font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.55}
+  .no-modules{background:var(--white);border:1px solid var(--border);padding:14px 16px;font-size:13px;color:var(--text-muted)}
+
+  /* Concepts */
+  .concept-icon{font-size:30px;margin-bottom:14px}
+  .concept-body p{color:#333;line-height:1.75;margin-bottom:18px;font-size:14px}
   .concept-body p:last-child{margin-bottom:0}
-  .other-topics{border-top:1px solid #e5e7eb;padding-top:24px;margin-top:32px}
-  .other-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-  .other-btn{text-align:left;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:10px 12px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;color:#374151}
-  .other-btn:hover{border-color:#93c5fd;background:#eff6ff}
-  .used-on{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-  .used-btn{font-size:12px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:4px 10px;border-radius:4px;cursor:pointer;font-weight:500}
-  .used-btn:hover{background:#dbeafe}
-  .divider{margin-bottom:24px}
-  a{color:#2563eb}a:hover{text-decoration:underline}
+  .other-topics{border-top:2px solid var(--border);padding-top:28px;margin-top:36px}
+  .other-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .other-btn{text-align:left;background:var(--white);border:1px solid var(--border);padding:12px 14px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:600;color:var(--navy)}
+  .other-btn:hover{border-color:var(--navy-light);background:#f0f3f8}
+
+  /* Used on */
+  .used-on{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .used-btn{font-size:11px;font-weight:700;background:var(--navy);color:#fff;border:none;padding:5px 12px;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:background .15s}
+  .used-btn:hover{background:var(--navy-light)}
+
+  .divider{margin-bottom:28px}
+  a{color:var(--navy-light)}a:hover{text-decoration:underline}
+  .sep-line{border:none;border-top:1px solid var(--border);margin:28px 0}
 </style>
 </head>
 <body>
@@ -143,9 +187,9 @@ const CONCEPTS = [
   {id:"internalname",icon:"🏷️",title:"The Internal Name field",body:`Every content type has an Internal Name field at the top of the editor. This is purely for your team's use inside Contentful — it never appears on the website.\n\nA good internal name makes entries easy to find when browsing content or searching in Contentful. It should be descriptive enough that anyone on the team can understand what the entry is without opening it.\n\nSome suggested conventions to discuss with your team when establishing your governance model:\n\n— For page entries: use the page title as it appears on the site, e.g. "Home Page – EN" or "Dairy Industry Page – DK".\n— For modules: include the page name and module type, e.g. "Home – Hero" or "Dairy – Introduction Module".\n— For shared entries like links or images: use a descriptive name that reflects the content, not where it's used, so it remains reusable.\n\nConsistent naming makes content much easier to manage as the volume of entries grows.`},
 ];
 
-const PG = {label:"Content",ids:["internalName","headline","eyebrowHeadline","description","introduction","image","credit","creditType","publicationDate","postsPerPage","header","noResultText","facets","modules","breadcrumbTitle","parentPage","slug","updatedAt"]};
-const PG2 = {label:"SEO & Meta",ids:["meta__title","meta__description","meta__hideFromRobots","meta__hideFromRrobots","hideFromRobots","meta__canonical","metaTitle","metaDescription"]};
-const PG3 = {label:"Social Sharing",ids:["openGraph__title","openGraph__description","openGraph__image"]};
+const PG={label:"Content",ids:["internalName","headline","eyebrowHeadline","description","introduction","image","credit","creditType","publicationDate","postsPerPage","header","noResultText","facets","modules","breadcrumbTitle","parentPage","slug","updatedAt"]};
+const PG2={label:"SEO & Meta",ids:["meta__title","meta__description","meta__hideFromRobots","meta__hideFromRrobots","hideFromRobots","meta__canonical","metaTitle","metaDescription"]};
+const PG3={label:"Social Sharing",ids:["openGraph__title","openGraph__description","openGraph__image"]};
 function groupFields(fields){return [PG,PG2,PG3].map(g=>({label:g.label,fields:fields.filter(f=>g.ids.includes(f.id))})).filter(g=>g.fields.length>0);}
 
 const SINGLETONS=new Set(["P010SearchPage","P071IndustryListPage","P081BlogListPage","P140NotFoundPage","P150ErrorPage"]);
@@ -163,10 +207,10 @@ function typeClass(t){
 
 function renderBody(text){
   return text.split("\n\n").map((para,i)=>{
-    const parts = para.split(/(@@LINK:[^@]+@@)/g);
+    const parts=para.split(/(@@LINK:[^@]+@@)/g);
     return <p key={i}>{parts.map((part,j)=>{
-      const m = part.match(/^@@LINK:([^:]+):([^@]+)@@$/);
-      if(m) return <a key={j} href={m[1]} target="_blank" rel="noopener noreferrer">{m[2]}</a>;
+      const m=part.match(/^@@LINK:([^:]+):([^@]+)@@$/);
+      if(m)return <a key={j} href={m[1]} target="_blank" rel="noopener noreferrer">{m[2]}</a>;
       return part;
     })}</p>;
   });
@@ -188,7 +232,7 @@ function FieldRow({field}){
         </div>
       </div>
       <div className="field-id">{field.id}</div>
-      {field.note&&!open&&<button className="show-guidance" onClick={e=>{e.stopPropagation();setOpen(true);}}>Show guidance</button>}
+      {field.note&&!open&&<button className="show-guidance" onClick={e=>{e.stopPropagation();setOpen(true);}}>Show guidance ›</button>}
       {field.note&&open&&<div className="field-note">{field.note}</div>}
     </div>
   );
@@ -226,21 +270,30 @@ function App(){
   const concept=CONCEPTS.find(c=>c.id===selConcept);
   const grouped=groupFields(page.fields);
 
+  const currentLabel = view==="concepts"
+    ? concept?.title
+    : view==="pages"
+    ? `${page?.code} ${page?.name}`
+    : `${mod?.code} ${mod?.name}`;
+
+  const sectionLabel = view==="concepts" ? "Basics" : view==="pages" ? "Pages" : "Modules";
+
   return(
     <div className="layout">
       <aside>
-        <div className="sidebar-header">
-          <div className="sidebar-label">Contentful Docs</div>
-          <div className="tab-row">
-            {[["concepts","Basics"],["pages","Pages"],["modules","Modules"]].map(([id,label])=>(
-              <button key={id} className={`tab-btn ${view===id?"active":"inactive"}`} onClick={()=>setView(id)}>{label}</button>
-            ))}
-          </div>
+        <div className="sidebar-logo">
+          <div className="logo-text">Contentful</div>
+          <div className="logo-sub">Editor Documentation</div>
+        </div>
+        <div className="tab-row">
+          {[["concepts","Basics"],["pages","Pages"],["modules","Modules"]].map(([id,label])=>(
+            <button key={id} className={`tab-btn ${view===id?"active":"inactive"}`} onClick={()=>setView(id)}>{label}</button>
+          ))}
         </div>
         <nav>
           {view==="concepts"&&CONCEPTS.map(c=>(
             <button key={c.id} className={`nav-btn ${selConcept===c.id?"active":"inactive"}`} onClick={()=>setSelConcept(c.id)}>
-              <span style={{marginRight:6}}>{c.icon}</span>{c.title}
+              {c.title}
             </button>
           ))}
           {view==="pages"&&PAGES.map(p=>(
@@ -257,18 +310,25 @@ function App(){
       </aside>
 
       <main>
+        <div className="topbar">
+          <span className="topbar-title">{sectionLabel}</span>
+          <span className="topbar-sep">›</span>
+          <span className="topbar-name">{currentLabel}</span>
+        </div>
+
         <div className="content">
 
           {view==="concepts"&&concept&&<>
             <div className="concept-icon">{concept.icon}</div>
             <h1>{concept.title}</h1>
-            <div className="concept-body" style={{marginTop:16}}>{renderBody(concept.body)}</div>
+            <hr className="sep-line"/>
+            <div className="concept-body">{renderBody(concept.body)}</div>
             <div className="other-topics">
-              <div className="sidebar-label">Other topics</div>
+              <h2>Other topics</h2>
               <div className="other-grid">
                 {CONCEPTS.filter(c=>c.id!==concept.id).map(c=>(
                   <button key={c.id} className="other-btn" onClick={()=>setSelConcept(c.id)}>
-                    <span style={{marginRight:6}}>{c.icon}</span>{c.title}
+                    <span style={{marginRight:8}}>{c.icon}</span>{c.title}
                   </button>
                 ))}
               </div>
@@ -276,7 +336,7 @@ function App(){
           </>}
 
           {view==="pages"&&<>
-            <div style={{marginBottom:6,display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
+            <div style={{marginBottom:8,display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
               <span className="badge badge-code">{page.code}</span>
               {SINGLETONS.has(page.id)&&<span className="badge badge-singleton">Singleton — one entry only</span>}
             </div>
@@ -299,13 +359,13 @@ function App(){
             </div>
             {page.moduleIds.length>0?<>
               <h2>Allowed Modules</h2>
-              <p className="modules-intro">Click a module to see its fields.</p>
+              <p className="modules-intro" style={{marginBottom:14}}>Click a module to expand its fields.</p>
               {page.moduleIds.map(id=><ModCard key={id} moduleId={id}/>)}
             </>:<div className="no-modules">This page type does not use modules.</div>}
           </>}
 
           {view==="modules"&&mod&&<>
-            <div style={{marginBottom:6}}><span className="badge badge-code">{mod.code}</span></div>
+            <div style={{marginBottom:8}}><span className="badge badge-code">{mod.code}</span></div>
             <h1>{mod.name}</h1>
             <p className="desc" style={{marginTop:8}}>{mod.description}</p>
             {mod.fields.some(f=>f.required)&&<div className="required-box">
@@ -317,11 +377,11 @@ function App(){
               <div className="fields-list">{mod.fields.map(f=><FieldRow key={f.id} field={f}/>)}</div>
             </div>
             <h2>Used on</h2>
-            <div className="used-on" style={{marginTop:8}}>
+            <div className="used-on" style={{marginTop:10}}>
               {PAGES.filter(p=>p.moduleIds.includes(selMod)).map(p=>(
                 <button key={p.id} className="used-btn" onClick={()=>{setView("pages");setSelPage(p.id);}}>{p.code} {p.name}</button>
               ))}
-              {PAGES.filter(p=>p.moduleIds.includes(selMod)).length===0&&<span style={{fontSize:12,color:"#9ca3af"}}>Not linked to any page types in this documentation.</span>}
+              {PAGES.filter(p=>p.moduleIds.includes(selMod)).length===0&&<span style={{fontSize:12,color:"#aaa"}}>Not linked to any page types in this documentation.</span>}
             </div>
           </>}
 
